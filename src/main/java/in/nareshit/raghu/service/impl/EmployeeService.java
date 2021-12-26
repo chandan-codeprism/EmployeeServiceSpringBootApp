@@ -6,6 +6,9 @@ import in.nareshit.raghu.service.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class EmployeeService implements IEmployeeService {
 
@@ -17,4 +20,20 @@ public class EmployeeService implements IEmployeeService {
         employeeRepository.save(employee);
         return employee.getEmpId();
     }
+
+    @Override
+    public List<Employee> findAllEmployees() {
+        List<Employee> list = employeeRepository.findAll();
+        return list;
+    }
+
+    @Override
+    public Employee findEmployeeById(Long id) {
+        Optional<Employee> opt = employeeRepository.findById(id);
+        if (opt.isPresent())
+            return opt.get();
+        else
+            return null;
+    }
+
 }
