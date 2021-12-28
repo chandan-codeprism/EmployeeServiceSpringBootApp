@@ -1,6 +1,7 @@
 package in.nareshit.raghu.rest;
 
 import in.nareshit.raghu.entity.Employee;
+import in.nareshit.raghu.exception.EmployeeNotFoundException;
 import in.nareshit.raghu.service.impl.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,29 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<Employee> findEmployeeById(@PathVariable Long id) {
-        Employee employee = employeeService.findEmployeeById(id);
-        return new ResponseEntity<Employee>(employee, HttpStatus.OK);
+    public ResponseEntity<?> findEmployeeById(@PathVariable Long id) {
+        ResponseEntity<?> resp = null;
+        try {
+            Employee employee = employeeService.findEmployeeById(id);
+            resp = new ResponseEntity<>(employee, HttpStatus.OK);
+
+        } catch (EmployeeNotFoundException e) {
+            e.printStackTrace();
+            resp = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return resp;
+    }
+
+    @DeleteMapping("/remove/{id}")
+    public ResponseEntity<String> deleteOneEmployee(@PathVariable Long id) {
+        ResponseEntity<String> resp = null;
+        try {
+            employeeService.deleteOneEmployee(id);
+            resp = new ResponseEntity<>("Employee deleted", HttpStatus.OK);
+        } catch (EmployeeNotFoundException e) {
+            e.printStackTrace();
+            resp = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return resp;
     }
 }
