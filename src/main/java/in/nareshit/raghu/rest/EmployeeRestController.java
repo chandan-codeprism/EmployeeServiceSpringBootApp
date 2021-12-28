@@ -35,11 +35,11 @@ public class EmployeeRestController {
         ResponseEntity<?> resp = null;
         try {
             Employee employee = employeeService.findEmployeeById(id);
-            resp = new ResponseEntity<>(employee, HttpStatus.OK);
+            resp = new ResponseEntity<>(employee, HttpStatus.OK);// 200 OK
 
         } catch (EmployeeNotFoundException e) {
             e.printStackTrace();
-            resp = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw e;//call globalExceptionHandler
         }
         return resp;
     }
@@ -49,10 +49,10 @@ public class EmployeeRestController {
         ResponseEntity<String> resp = null;
         try {
             employeeService.deleteOneEmployee(id);
-            resp = new ResponseEntity<>("Employee deleted", HttpStatus.OK);
+            resp = new ResponseEntity<>("Employee deleted", HttpStatus.OK);// 200 OK
         } catch (EmployeeNotFoundException e) {
             e.printStackTrace();
-            resp = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw e;//Call Global Exception Handler
         }
         return resp;
     }
