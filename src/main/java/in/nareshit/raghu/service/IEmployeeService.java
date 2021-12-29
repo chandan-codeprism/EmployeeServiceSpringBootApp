@@ -13,4 +13,8 @@ public interface IEmployeeService {
     Employee findEmployeeById(Long id);
 
     void deleteOneEmployee(Long id);
+
+    void updateEmployee(Employee employee);
+
+    int updateEmployeeName(String ename, Long id);
 }

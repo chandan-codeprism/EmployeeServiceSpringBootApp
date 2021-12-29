@@ -6,6 +6,7 @@ import in.nareshit.raghu.repo.EmployeeRepository;
 import in.nareshit.raghu.service.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -43,4 +44,22 @@ public class EmployeeService implements IEmployeeService {
         employeeRepository.delete(findEmployeeById(id));
     }
 
+    @Override
+    public void updateEmployee(Employee employee) {
+        Long id = employee.getEmpId();
+        if (id != null && employeeRepository.existsById(id)) {
+            employeeRepository.save(employee);
+        } else {
+            throw new EmployeeNotFoundException("Employee '" + id + "' is not exist");
+        }
+    }
+
+    @Override
+    @Transactional
+    public int updateEmployeeName(String ename, Long id) {
+        if (id != null && employeeRepository.existsById(id)) {
+            return employeeRepository.updateEmployeeName(ename, id);
+        } else
+            throw new EmployeeNotFoundException("Employee '" + id + "' is not exist");
+    }
 }

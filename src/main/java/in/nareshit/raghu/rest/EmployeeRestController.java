@@ -56,4 +56,31 @@ public class EmployeeRestController {
         }
         return resp;
     }
+
+    @PutMapping("/modify")
+    public ResponseEntity<String> updateEmployee(@RequestBody Employee employee) {
+        ResponseEntity<String> resp = null;
+        try {
+            employeeService.updateEmployee(employee);
+            resp = new ResponseEntity<>("Employee updated", HttpStatus.OK);
+        } catch (EmployeeNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return resp;
+    }
+
+    @PatchMapping("/modify/name/{id}/{name}")
+    public ResponseEntity<String> updateEmployeeName(
+            @PathVariable String name, @PathVariable Long id) {
+        ResponseEntity<String> resp;
+        try {
+            employeeService.updateEmployeeName(name, id);
+            resp = new ResponseEntity<>("Employee name updated", HttpStatus.OK);
+        } catch (EmployeeNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return resp;
+    }
 }
