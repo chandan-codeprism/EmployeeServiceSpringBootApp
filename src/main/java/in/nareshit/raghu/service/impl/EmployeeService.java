@@ -56,9 +56,9 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     @Transactional
-    public int updateEmployeeName(String ename, Long id) {
+    public void updateEmployeeName(String ename, Long id) {
         if (id != null && employeeRepository.existsById(id)) {
-            return employeeRepository.updateEmployeeName(ename, id);
+            employeeRepository.updateEmployeeName(ename, id);
         } else
             throw new EmployeeNotFoundException("Employee '" + id + "' is not exist");
     }
