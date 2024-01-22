@@ -12,4 +12,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Modifying
     @Query("UPDATE Employee SET empName=:ename WHERE empId=:eid")
     int updateEmployeeName(String ename, Long eid);
+
+    @Modifying
+    @Query("UPDATE Employee SET empName=:ename WHERE empId=:eid")
+    int updateEmployeeName(String ename, Long eid);
 }
